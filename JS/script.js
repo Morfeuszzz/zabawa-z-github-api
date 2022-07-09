@@ -6,7 +6,7 @@ let repos_array = [];
 btn.addEventListener("click", () => {
     const username = document.getElementById("username").value;
 
-    async function getAllRepos(res = {}) {
+    async function getAllRepos() {
         let api_repo_url = `https://api.github.com/users/${username}/repos`;
         const response = await fetch(api_repo_url, {
             // (options section)w drugim parametrze fetch czyli w tym, określa się wartości działania na API, np zmiana metody z defaoultowej(GET) na przykładowo POST, ustawiania headers, credentials, cache, redirect itp.
@@ -16,21 +16,26 @@ btn.addEventListener("click", () => {
             },
             // body: JSON.stringify(res) //nie moze być ustawione jak wysyła się zapytanie GET
         });
-        return response.json();  //zwracamy respone czyli fetchowaną odp z API oraz parsujemy(.json()) ją na natywny JavaScriptowy obiekt 
+        return response;  //zwracamy response czyli fetchowaną odp z API oraz parsujemy(.json()) ją na natywny JavaScriptowy obiekt, JEDNAK parsujemy na json przy wywołaniu funkcji
     }
     getAllRepos()
         .then(res => {
-            if (res.ok) {   //fetch zwraca zawsze powodzenie z wyjątkiem problemu z netem, w tym if-ie sprawdza czy kod po pobraniu danych jest kodem 200 to okej czy 400/500 to wtedy powie że coś nie tak
-                for (let i = 0; i < res.length; i++) {
-                    repos_array.push(res[i].name);
-                    // repos_array.push(res[i].owner.login);  obiekt w obiekcie
-                }
-                console.log("Info o repos", res);
-                console.log("Nazwy repos w tablicy", repos_array);
+            if (res.ok) {     //fetch zwraca zawsze powodzenie z wyjątkiem problemu z netem, w tym if-ie sprawdza czy kod po pobraniu danych jest kodem 200 to okej czy 400/500 to wtedy powie że coś nie tak. Ale funkcja res.ok nie działa na responsie który jest po .json czyli zamieniony na JS object
+                console.log("dziala", res);
+                res.json()
+                    .then(data => {
+                        // console.log(data, "Dupa");
+                        for (let i = 0; i < data.length; i++) {
+                            repos_array.push(data[i].name);
+                            // repos_array.push(data[i].owner.login);  obiekt w obiekcie
+                        }
+                        console.log("Info o repos", data);
+                        console.log("Nazwy repos w tablicy", repos_array);
+                    })
             } else {
-                console.log("Coś poszło nie tak");
+                console.log("nie działa wariacie");
             }
-        });
+        })
 
     ///////////////////////////////////////////////////////////////////////
     // Pobieranie ilości bajtów na każdy język w danym repo
