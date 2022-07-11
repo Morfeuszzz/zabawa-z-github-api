@@ -1,5 +1,5 @@
 const btn = document.getElementById("submit");
-// const div_for_repos = document.getElementById("all-repos");
+const div_for_repos = document.getElementById("all-repos");
 
 let repos_array = [];
 
@@ -19,39 +19,44 @@ btn.addEventListener("click", () => {
         return response;  //zwracamy response czyli fetchowaną odp z API oraz parsujemy(.json()) ją na natywny JavaScriptowy obiekt, JEDNAK parsujemy na json przy wywołaniu funkcji
     }
     getAllRepos()
-        .then(res => {
-            if (res.ok) {     //fetch zwraca zawsze powodzenie z wyjątkiem problemu z netem, w tym if-ie sprawdza czy kod po pobraniu danych jest kodem 200 to okej czy 400/500 to wtedy powie że coś nie tak. Ale funkcja res.ok nie działa na responsie który jest po .json czyli zamieniony na JS object
-                console.log("dziala", res);
-                res.json()
-                    .then(data => {
-                        // console.log(data, "Dupa");
-                        for (let i = 0; i < data.length; i++) {
-                            repos_array.push(data[i].name);
-                            // repos_array.push(data[i].owner.login);  obiekt w obiekcie
-                        }
-                        console.log("Info o repos", data);
-                        console.log("Nazwy repos w tablicy", repos_array);
-                    })
-            } else {
+        .then(response => {
+            if (!response.ok) {     //fetch zwraca zawsze powodzenie z wyjątkiem problemu z netem, w tym if-ie sprawdza czy kod po pobraniu danych jest kodem 200 to okej czy 400/500 to wtedy powie że coś nie tak. Ale funkcja res.ok nie działa na responsie który jest po .json czyli zamieniony na JS object
                 console.log("nie działa wariacie");
+                throw new Error(`HTTP error: ${response.status}`);  //wrzuca do devtools konsoli tekst i status błędu, np. 404
+            } else {
+                console.log("dziala", response);
+                return response.json()
             }
         })
+        .then(data => {
+            for (let i = 0; i < data.length; i++) {
+                repos_array.push(data[i].name);     // repos_array.push(data[i].owner.login);  obiekt w obiekcie
+            }
+            console.log("Info o repos", data);
+            console.log("Nazwy repos w tablicy", repos_array);
+            div_for_repos.innerHTML = repos_array.join(", ");
+        })
+
+
+
+
+
 
     ///////////////////////////////////////////////////////////////////////
     // Pobieranie ilości bajtów na każdy język w danym repo
 
-    async function getLangForRepo(res = {}) {
-        // let api_lang_url = `https://api.github.com/repos/${username}/REPO/languages`;
-        let api_lang_url = `https://api.github.com/repos/${username}/ZSK/languages`;
+    // async function getLangForRepo(res = {}) {
+    //     // let api_lang_url = `https://api.github.com/repos/${username}/REPO/languages`;
+    //     let api_lang_url = `https://api.github.com/repos/${username}/ZSK/languages`;
 
-        const response = await fetch(api_lang_url);
-        return response.json();
+    //     const response = await fetch(api_lang_url);
+    //     return response.json();
         
-    }
+    // }
 
-    getLangForRepo()
-        .then(res => {
-            console.log("Ilosc bajtow danego jezyka", res);
-        });
+    // getLangForRepo()
+    //     .then(res => {
+    //         console.log("Ilosc bajtow danego jezyka", res);
+    //     });
 
 });
