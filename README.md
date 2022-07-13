@@ -5,3 +5,5 @@ Zabawa z github api, wszystko robione w JS. Później coś podobnego chce zrobi�
 # Działanie
 
 Jest to skrypt pobierający wszystkie publiczne repozytoria użytkownika, którego nazwa została wpisana do pola. Wyświetla je jako przyciski. Po kliknięciu na dany przycisk z konkretną nazwą repo, zostają wyświetlone języki użyte w nim oraz ilość B(bajtów) przypadająca na dany język.
+
+live preview https://morfeuszzz.github.io/zabawa-z-github-api/JS/

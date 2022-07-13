@@ -1,7 +1,7 @@
 const submit_btn = document.getElementById("submit");
 const div_for_repos = document.getElementById("all-repos");
 
-submit_btn.addEventListener("click",  function() {
+submit_btn.addEventListener("click", () => {
 
     if (document.querySelector('.div-for-repo-lang')) {     //bez tworzenie zmiennej do tego, o 1 linijkę mniej kodu
         document.querySelector('.div-for-repo-lang').remove();
