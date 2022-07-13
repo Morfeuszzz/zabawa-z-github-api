@@ -1,4 +1,4 @@
-# project-using-github-api
+# zabawa-z-github-api
 
 Zabawa z github api, wszystko robione w JS. Później coś podobnego chce zrobić w PHP. Nie skupiam się tutaj nad wyglądam, a wyłącznie nad działaniem backendowym. Działałem na publicznym api githuba.
 
