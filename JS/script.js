@@ -80,7 +80,7 @@ submit_btn.addEventListener("click",  function() {
                     .then(data => {
                             let text = '';
                             for (let key in data) {     //przechodzi przez każdą właściwość obiektu JS, dodaje ją oraz jej wartość do stringa którego później wyświetla
-                                text += key + " : " + data[key]+" MB<br>";
+                                text += key + " : " + data[key]+" B<br>";
                                 console.log(key, data[key]);
                             }
                             divExists.innerHTML = text;
