@@ -4,7 +4,7 @@ const div_for_repos = document.getElementById("all-repos");
 submit_btn.addEventListener("click", () => {
 
     if (document.querySelector('.div-for-repo-lang')) {     //bez tworzenie zmiennej do tego, o 1 linijkę mniej kodu
-        document.querySelector('.div-for-repo-lang').remove();
+        document.querySelector('.div-for-repo-lang').remove();      //usuwam tego div-a na języki po kliknięciu 'Wyślij' ponieważ jak zapytam o user1 i wyświetle jego jęz. a potem wyszukam user2 to jęz. z user1 pokazują się w tym div-ie, więc lepiej go usunąc przy szukaniu kolejnego user-a
     }
 
     const username = document.getElementById("username").value;
@@ -40,12 +40,12 @@ submit_btn.addEventListener("click", () => {
             }
             // console.log("Info o repos", data);
             // console.log("Nazwy repos w tablicy", repos_array);
-            displayReposAsButtons();    //tworzy przyciski o nazwie repo jakie uda mu się pobrać
-            prepareToShowRepoLang();    //tworzy div-a w którym wyświetla języki repo wybranego przez użytkownika oraz ilość MB każdego z języków które ma owe repo
+            displayReposAsButtons();    
+            prepareToShowRepoLang();
         })
         .catch(error => console.log(`Fetch problem kumplu: ${error}`));     //console-uje nazwę error-a
 
-    function displayReposAsButtons() {
+    function displayReposAsButtons() {      //tworzy przyciski o nazwie repo jakie uda mu się pobrać
         for (let j = 0; j < repos_array.length; j++) {
             let newButton = document.createElement('button');
             newButton.innerHTML = repos_array[j];       //wrzuca do buttona-a nazwę repo jakie pobrał
@@ -55,14 +55,14 @@ submit_btn.addEventListener("click", () => {
         }
     }
 
-    async function getLangForRepo(repo, username) {
+    async function getLangForRepo(repo, username) {     //pobiera języki dla danego repo oraz ilość B(bajtów) każdego z języków które ma owe repo
         // let api_lang_url = `https://api.github.com/repos/USERNAME/REPO/languages`;       //ogólny endpoint github api
         let api_lang_url = `https://api.github.com/repos/${username}/${repo}/languages`;
         const response = await fetch(api_lang_url);
         return response.json();     //tutaj zrobiłem bez sprawdzanie czy wystąpił błąd, od razu ma zwrócić odpowiedź sparsowaną na json-a
     }
     
-    function prepareToShowRepoLang() {
+    function prepareToShowRepoLang() {      //tworzy div-a w którym wyświetla języki repo wybranego przez użytkownika oraz ilość B(bajtów) każdego z języków które ma owe repo
         let buttons = document.querySelectorAll('.buttons');
         let container = document.body;
         buttons.forEach( button => {
